@@ -2,9 +2,10 @@
     width: 84px;
     height: 100%;
     position: fixed;
-    left:0;
-    right:0;
+    left: 0;
+    top: 0;
     background-color: white;
+    border-right: 1px solid #eeeeee;
     &__avatar {
         margin-top: 20px;
         margin-bottom: 115px;
@@ -17,11 +18,12 @@
     &__item {
         text-align: center;
         margin-bottom: 50px;
-        color: #A9A9A9;
+        color: #a9a9a9;
         font-size: 16px;
         text-decoration: none;
         display: block;
-        &.active,&:hover{
+        &.active,
+        &:hover {
             color: #515151;
             .left-nav__icon__note {
                 background-image: url(../../assets/images/contacts-fill.svg);

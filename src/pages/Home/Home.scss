@@ -1,5 +1,8 @@
 .home {
+    position: fixed;
+    height: 100%;
+    width: 100%;
     &__con {
-        padding-left: 110px;
+        padding-left: 84px + 1px;
     }
 }
