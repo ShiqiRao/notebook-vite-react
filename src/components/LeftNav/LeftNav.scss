@@ -1,5 +1,5 @@
 .left-nav {
-    width: 110px;
+    width: 84px;
     height: 100%;
     position: fixed;
     left:0;
@@ -17,10 +17,60 @@
     &__item {
         text-align: center;
         margin-bottom: 50px;
+        color: #A9A9A9;
+        font-size: 16px;
+        text-decoration: none;
+        display: block;
+        &.active,&:hover{
+            color: #515151;
+            .left-nav__icon__note {
+                background-image: url(../../assets/images/contacts-fill.svg);
+            }
+            .left-nav__icon__pic {
+                background-image: url(../../assets/images/pic-fill.svg);
+            }
+            .left-nav__icon__audio {
+                background-image: url(../../assets/images/play-fill.svg);
+            }
+            .left-nav__icon__folder {
+                background-image: url(../../assets/images/folder-fill.svg);
+            }
+            .left-nav__icon__collection {
+                background-image: url(../../assets/images/collection-fill.svg);
+            }
+            .left-nav__icon__ashbin {
+                background-image: url(../../assets/images/ashbin-fill.svg);
+            }
+        }
     }
     &__icon {
-        img {
-            width: 40px;
+        width: 32px;
+        height: 32px;
+        background-size: 32px 32px;
+        margin: 0 auto;
+
+        &__note {
+            background-image: url(../../assets/images/contacts.svg);
+        }
+
+        &__pic {
+            background-image: url(../../assets/images/pic.svg);
+        }
+
+        &__audio {
+            background-image: url(../../assets/images/play.svg);
+        }
+
+        &__folder {
+            background-image: url(../../assets/images/folder.svg);
+        }
+
+        &__collection {
+            background-image: url(../../assets/images/collection.svg);
+        }
+
+        &__ashbin {
+            background-image: url(../../assets/images/ashbin.svg);
         }
     }
 }
