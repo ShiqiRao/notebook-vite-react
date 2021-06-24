@@ -1,11 +1,14 @@
 .note-list {
     width: 400px;
+    height: 100%;
     background-color: #f7f8fa;
+    border-right: 1px solid #eeeeee;
+    overflow-y: scroll;
     &__topbar {
         height: 72px;
         position: relative;
         background-color: white;
-        border-bottom: 1px solid #EEEEEE;
+        border-bottom: 1px solid #eeeeee;
         input {
             margin-top: 16px;
             margin-left: 15px;
@@ -32,7 +35,7 @@
         position: relative;
         &.active,
         &:hover {
-            &::before{
+            &::before {
                 content: "";
                 display: block;
                 width: 8px;
@@ -53,6 +56,7 @@
     &__detail {
         color: #4f4f50;
         font-size: 14px;
+        margin-bottom: 12px;
     }
     &__add {
         position: absolute;
@@ -62,9 +66,19 @@
         top: 16px;
         background-size: 40px 40px;
         background-image: url(../../assets/images/add.svg);
-        &.active,
-        &:hover {
+        &.active {
             background-image: url(../../assets/images/add-fill.svg);
+        }
+    }
+    &__time {
+        line-height: 17px;
+        color: #cacdd3;
+        font-size: 14px;
+        img {
+            width: 16px;
+            vertical-align: middle;
+            margin-top: -2px;
+            margin-right: 8px;
         }
     }
 }

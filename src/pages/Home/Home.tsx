@@ -12,7 +12,7 @@ function Home() {
         <LeftNav></LeftNav>
 
         <Switch>
-            <div className="home__con">
+            <div className="home__con" style={{ height: window.innerHeight }}>
                 <Route path="/note">
                     <Note></Note>
                 </Route>

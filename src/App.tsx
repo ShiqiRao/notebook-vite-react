@@ -1,39 +1,22 @@
-import React, { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
-import Home from './pages/Home/Home';
-import Login from './pages/Login/Login';
-import Register from './pages/Register/Register';
-
+import React, { useState } from 'react';
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
+  BrowserRouter as Router, Route, Switch
 } from "react-router-dom";
+import './App.css';
+import Home from './pages/Home/Home';
+
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <div className="App">
-<Router>
-      <div>
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
+      <Router>
         <Switch>
-          <Route path="/login">
-            <Login></Login>
-          </Route>
-          <Route path='/register'>
-            <Register></Register>
-          </Route>
-          <Route path="/">
-            <Home></Home>
+          <Route path="/" component={Home}>
           </Route>
         </Switch>
-      </div>
-    </Router>
+      </Router>
     </div>
   )
 }
