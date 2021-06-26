@@ -3,7 +3,7 @@ import "./Editor.scss";
 
 function Editor(){
     return <div className="editor">
-        <textarea className="editor__textarea"></textarea>
+        <textarea placeholder="请输入" className="editor__textarea"></textarea>
     </div>
 }
 

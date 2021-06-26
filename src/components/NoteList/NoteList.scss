@@ -4,6 +4,7 @@
     background-color: #f7f8fa;
     border-right: 1px solid #eeeeee;
     overflow-y: scroll;
+    overflow-x: hidden;
     &__topbar {
         height: 72px;
         position: relative;
@@ -81,4 +82,8 @@
             margin-right: 8px;
         }
     }
+}
+
+.note-list::-webkit-scrollbar{
+    display: none;
 }

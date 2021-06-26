@@ -10,14 +10,12 @@ function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <div className="App">
       <Router>
         <Switch>
           <Route path="/" component={Home}>
           </Route>
         </Switch>
       </Router>
-    </div>
   )
 }
 
