@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import noteReducer from '../reducer/note'
 
-const store = configureStore({
+export const store = configureStore({
   reducer: {
       note: noteReducer
   },
