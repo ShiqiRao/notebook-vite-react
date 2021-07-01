@@ -1,4 +1,3 @@
-import React from "react";
 import Dexie from 'dexie';
 import { INote } from "./INote";
 
@@ -8,7 +7,7 @@ class Model extends Dexie {
     notes: Dexie.Table<INote, number>; // number = type of the primkey
     //...other tables goes here...
 
-    constructor () {
+    constructor() {
         super("MyAppDatabase");
         this.version(1).stores({
             contacts: '++id, cotent, create_at, update_at',
@@ -19,16 +18,21 @@ class Model extends Dexie {
         this.notes = this.table("contacts");
     }
 
-    getNote(){
+    getNote() {
         return this.notes.reverse().toArray()
     }
 
-    addNote(){
+    addNote() {
         return this.notes.add({
-            content:'',
-            create_at:new Date(),
-            update_at:new Date()
+            content: '',
+            create_at: Date.now(),
+            update_at: Date.now()
         })
+    }
+
+    updateNote(payload: INote) {
+        payload.update_at = Date.now()
+        return this.notes.update(payload.id || 0, payload)
     }
 }
 

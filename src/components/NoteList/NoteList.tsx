@@ -2,15 +2,14 @@ import { format } from 'date-fns';
 import React, { useEffect, useState } from "react";
 import clockIcon from "../../assets/images/clock.svg";
 import searchIcon from "../../assets/images/search.svg";
-import { INote } from "../../common/INote";
-import Model from "../../common/Model";
-import { selectNote, update } from '../../reducer/note';
+import { INote } from '../../common/INote';
+import Model from '../../common/Model';
+import { selectCurrentNote, selectNote, updateNoteList } from '../../reducer/note';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import "./NoteList.scss";
 
 function NoteList() {
     const [model, setModel] = useState<Model>(new Model())
-    const [list, setList] = useState<INote[]>([])
     const note = useAppSelector(selectNote)
     const dispatch = useAppDispatch()
     useEffect(() => {
@@ -20,8 +19,8 @@ function NoteList() {
     function initData() {
         model.getNote()
             .then(res => {
-                console.log(res)
-                setList(res)
+                dispatch(updateNoteList(res))
+                dispatch(selectCurrentNote(res[0]))
             })
     }
 
@@ -32,24 +31,29 @@ function NoteList() {
             })
     }
 
+    function handleSelectNote(item: INote) {
+        console.debug(item, "handleSelectNote")
+        console.debug(new Date(item.update_at), "update_at_date")
+        dispatch(selectCurrentNote(item))
+    }
+
     return <div className="note-list">
         <div className="note-list__topbar">
             <input></input>
             <img className="note-list__search" src={searchIcon}></img>
             <div onClick={handleAddNote} className="note-list__add"></div>
         </div>
-        {list.map(item => <div key={item.id} onClick={() => dispatch(update({
-            payload: item
-        }))} className="note-list__note">
-            <div className="note-list__title">{format(new Date(item.create_at), "yyyy-MM-dd")}</div>
+        {note.noteList.map(item => <div key={item.id} onClick={() => { handleSelectNote(item) }} className={"note-list__note" + (item.id == note.currentNote.id ? ' active' : '')}>
+            <div className="note-list__title">{item.content == '' ? format(new Date(item.create_at), "yyyy年MM月dd日") : item.content.substring(0, 10)}</div>
             <div className="note-list__detail">{item.content}</div>
             <div className="note-list__time">
                 <img src={clockIcon} />
-                {format(new Date(item.create_at), "yyyy/MM/dd hh:mm")}
+                {format(new Date(item.update_at), "yyyy/MM/dd hh:mm")}
             </div>
-        </div>)}
+        </div>)
+        }
 
-    </div>
+    </div >
 }
 
 export default NoteList

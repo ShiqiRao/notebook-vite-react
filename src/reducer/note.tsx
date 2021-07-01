@@ -1,14 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { INote } from "../common/INote"
 import type { RootState } from '../store/store'
 
 // Define a type for the slice state
 interface NoteState {
-    currentNote: object
+    currentNote: INote,
+    noteList: INote[],
 }
 
 // Define the initial state using that type
 const initialState: NoteState = {
-    currentNote: {},
+    currentNote: {
+        content: '',
+        create_at: new Date().getTime(),
+        update_at: new Date().getTime()
+    },
+    noteList: [],
 }
 
 export const noteSlice = createSlice({
@@ -16,16 +23,18 @@ export const noteSlice = createSlice({
     // `createSlice` will infer the state type from the `initialState` argument
     initialState,
     reducers: {
-        update: (state, action) => {
-            console.log(action)
+        selectCurrentNote: (state, action) => {
             state.currentNote = action.payload
         },
+        updateNoteList: (state, action) => {
+            state.noteList = action.payload
+        }
     },
 })
 
-export const { update } = noteSlice.actions
+export const { selectCurrentNote, updateNoteList } = noteSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectNote = (state: RootState) => state.note.currentNote
+export const selectNote = (state: RootState) => state.note
 
 export default noteSlice.reducer

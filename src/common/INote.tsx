@@ -1,6 +1,6 @@
-export interface INote {
-    id: number,
-    content: string,
-    create_at: Date,
-    update_at: Date
+export class INote {
+    id?: number;
+    content: string = '';
+    create_at: number = Date.now();
+    update_at: number = Date.now();
 }

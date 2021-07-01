@@ -10,18 +10,17 @@ import './Home.scss'
 function Home() {
     return <div>
         <LeftNav></LeftNav>
+        <div className="home__con" style={{ height: window.innerHeight }}>
+            <Switch>
 
-        <Switch>
-            <div className="home__con" style={{ height: window.innerHeight }}>
                 <Route path="/note">
                     <Note></Note>
                 </Route>
                 <Route path="/photo">
                     <Photo></Photo>
                 </Route>
-            </div>
-        </Switch>
-
+            </Switch>
+        </div>
     </div>
 }
 
