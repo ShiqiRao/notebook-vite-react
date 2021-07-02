@@ -19,7 +19,9 @@ function Editor() {
                     if (item.id == note.currentNote.id) {
                         return Object.assign({}, item, {
                             id: item.id,
-                            content: e.target.value
+                            content: e.target.value,
+                            create_at: item.create_at,
+                            update_at: Date.now()
                         })
                     }
                     return item
