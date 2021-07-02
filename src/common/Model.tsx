@@ -18,8 +18,12 @@ class Model extends Dexie {
         this.notes = this.table("contacts");
     }
 
-    getNote() {
-        return this.notes.reverse().toArray()
+    getNote(params = {
+        page: 1,
+        limit: 20
+    }) {
+        const { limit, page } = params
+        return this.notes.reverse().offset((page - 1) * limit).limit(limit).toArray()
     }
 
     addNote() {

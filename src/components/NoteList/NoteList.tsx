@@ -37,7 +37,15 @@ function NoteList() {
         dispatch(selectCurrentNote(item))
     }
 
-    return <div className="note-list">
+    function handleScroll(event: React.UIEvent<HTMLElement, UIEvent>) {
+        const { scrollHeight, scrollTop } = event.currentTarget
+        const domHeight = event.currentTarget.getBoundingClientRect().height
+        if(scrollHeight <= scrollTop + domHeight){
+            console.log('bottom')
+        }
+    }
+
+    return <div className="note-list" onScroll={(e) => handleScroll(e)}>
         <div className="note-list__topbar">
             <input></input>
             <img className="note-list__search" src={searchIcon}></img>
