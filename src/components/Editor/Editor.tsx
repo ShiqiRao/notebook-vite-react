@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { INote } from "../../common/INote";
 import Model from "../../common/Model";
-import { selectNote, updateNoteList } from '../../reducer/note';
+import { selectNote, setNoteList } from '../../reducer/note';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import "./Editor.scss";
 
@@ -15,7 +15,7 @@ function Editor() {
         toUpdate.content = e.target.value
         model.updateNote(toUpdate)
             .then(res => {
-                dispatch(updateNoteList(note.noteList.map(item => {
+                dispatch(setNoteList(note.noteList.map(item => {
                     if (item.id == note.currentNote.id) {
                         return Object.assign({}, item, {
                             id: item.id,

@@ -20,7 +20,7 @@ class Model extends Dexie {
 
     getNote(params = {
         page: 1,
-        limit: 20
+        limit: 10
     }) {
         const { limit, page } = params
         return this.notes.reverse().offset((page - 1) * limit).limit(limit).toArray()

@@ -4,7 +4,7 @@ import clockIcon from "../../assets/images/clock.svg";
 import searchIcon from "../../assets/images/search.svg";
 import { INote } from '../../common/INote';
 import Model from '../../common/Model';
-import { selectCurrentNote, selectNote, updateNoteList } from '../../reducer/note';
+import { selectNote, setCurrentNote, setHasNext, setNoteList, setPage } from '../../reducer/note';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import "./NoteList.scss";
 
@@ -13,35 +13,42 @@ function NoteList() {
     const note = useAppSelector(selectNote)
     const dispatch = useAppDispatch()
     useEffect(() => {
-        initData()
+        initData(true)
     }, [])
 
-    function initData() {
+    function initData(first: boolean) {
         model.getNote()
             .then(res => {
-                dispatch(updateNoteList(res))
-                dispatch(selectCurrentNote(res[0]))
+                dispatch(setNoteList(res))
+                first && dispatch(setCurrentNote(res[0]))
             })
     }
 
     function handleAddNote() {
         model.addNote()
             .then(res => {
-                initData()
+                initData(false)
             })
     }
 
     function handleSelectNote(item: INote) {
-        console.debug(item, "handleSelectNote")
-        console.debug(new Date(item.update_at), "update_at_date")
-        dispatch(selectCurrentNote(item))
+        dispatch(setCurrentNote(item))
     }
 
     function handleScroll(event: React.UIEvent<HTMLElement, UIEvent>) {
         const { scrollHeight, scrollTop } = event.currentTarget
         const domHeight = event.currentTarget.getBoundingClientRect().height
-        if(scrollHeight <= scrollTop + domHeight){
-            console.log('bottom')
+        if (scrollHeight <= scrollTop + domHeight) {
+            const nextPage = note.page + 1;
+            note.hasNext && model.getNote({ page: nextPage, limit: 10 })
+                .then(res => {
+                    if (res.length == 0) {
+                        dispatch(setHasNext(false));
+                    } else {
+                        dispatch(setNoteList(note.noteList.concat(res)))
+                        dispatch(setPage(nextPage))
+                    }
+                })
         }
     }
 

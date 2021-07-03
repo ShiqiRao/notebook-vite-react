@@ -6,16 +6,21 @@ import type { RootState } from '../store/store'
 interface NoteState {
     currentNote: INote,
     noteList: INote[],
+    page: number,
+    hasNext: boolean
 }
 
 // Define the initial state using that type
 const initialState: NoteState = {
     currentNote: {
+        id: 0,
         content: '',
         create_at: new Date().getTime(),
         update_at: new Date().getTime()
     },
     noteList: [],
+    page: 1,
+    hasNext: true
 }
 
 export const noteSlice = createSlice({
@@ -23,16 +28,22 @@ export const noteSlice = createSlice({
     // `createSlice` will infer the state type from the `initialState` argument
     initialState,
     reducers: {
-        selectCurrentNote: (state, action) => {
+        setCurrentNote: (state, action) => {
             state.currentNote = action.payload
         },
-        updateNoteList: (state, action) => {
+        setNoteList: (state, action) => {
             state.noteList = action.payload
+        },
+        setPage: (state, action) => {
+            state.page = action.payload
+        },
+        setHasNext: (state, action) => {
+            state.hasNext = action.payload
         }
     },
 })
 
-export const { selectCurrentNote, updateNoteList } = noteSlice.actions
+export const { setCurrentNote, setNoteList, setPage, setHasNext } = noteSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectNote = (state: RootState) => state.note
