@@ -17,10 +17,20 @@ function NoteList() {
     }, [])
 
     function initData(first: boolean) {
-        model.getNote()
+        model.getNote({
+            limit: 12,
+            page: note.page
+        })
             .then(res => {
-                dispatch(setNoteList(res))
+                const list = res
+                dispatch(setNoteList(note.noteList.concat(res)))
                 first && dispatch(setCurrentNote(res[0]))
+                if (list.length == 12) {
+                    dispatch(setHasNext(true))
+                    dispatch(setPage(note.page + 1))
+                } else {
+                    dispatch(setHasNext(false))
+                }
             })
     }
 
@@ -37,18 +47,9 @@ function NoteList() {
 
     function handleScroll(event: React.UIEvent<HTMLElement, UIEvent>) {
         const { scrollHeight, scrollTop } = event.currentTarget
-        const domHeight = event.currentTarget.getBoundingClientRect().height
+        const domHeight = event.currentTarget.clientHeight
         if (scrollHeight <= scrollTop + domHeight) {
-            const nextPage = note.page + 1;
-            note.hasNext && model.getNote({ page: nextPage, limit: 10 })
-                .then(res => {
-                    if (res.length == 0) {
-                        dispatch(setHasNext(false));
-                    } else {
-                        dispatch(setNoteList(note.noteList.concat(res)))
-                        dispatch(setPage(nextPage))
-                    }
-                })
+            note.hasNext && initData(false)
         }
     }
 
