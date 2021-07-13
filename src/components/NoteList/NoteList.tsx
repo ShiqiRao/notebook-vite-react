@@ -22,10 +22,13 @@ function NoteList() {
             page: note.page
         })
             .then(res => {
-                const list = res
-                dispatch(setNoteList(note.noteList.concat(res)))
-                first && dispatch(setCurrentNote(res[0]))
-                if (list.length == 12) {
+                if (note.page == 1) {
+                    dispatch(setNoteList(res))
+                } else {
+                    dispatch(setNoteList(note.noteList.concat(res)))
+                }
+                first && (res.length) > 0 && dispatch(setCurrentNote(res[0]))
+                if (note.noteList.length == 12) {
                     dispatch(setHasNext(true))
                     dispatch(setPage(note.page + 1))
                 } else {
