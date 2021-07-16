@@ -1,16 +1,14 @@
 import { format } from 'date-fns';
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import clockIcon from "../../assets/images/clock.svg";
-import searchIcon from "../../assets/images/search.svg";
-import Search from '../Search/Search'
 import { INote } from '../../common/INote';
-import Model from '../../common/Model';
+import { db } from '../../common/Model';
 import { selectNote, setCurrentNote, setHasNext, setNoteList, setPage } from '../../reducer/note';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import Search from '../Search/Search';
 import "./NoteList.scss";
 
 function NoteList() {
-    const [model, setModel] = useState<Model>(new Model())
     const note = useAppSelector(selectNote)
     const dispatch = useAppDispatch()
     useEffect(() => {
@@ -19,7 +17,7 @@ function NoteList() {
 
     function fetchData(firstPage: boolean) {
         const currentPage = firstPage ? 1 : note.page;
-        model.getNote({
+        db.getNote({
             limit: 12,
             page: currentPage
         })
@@ -41,7 +39,7 @@ function NoteList() {
     }
 
     function handleAddNote() {
-        model.addNote()
+        db.addNote()
             .then(res => {
                 fetchData(true)
             })

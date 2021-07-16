@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { INote } from "../../common/INote";
-import Model from "../../common/Model";
+import { db } from "../../common/Model";
 import { selectNote, setNoteList } from '../../reducer/note';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import "./Editor.scss";
@@ -8,12 +8,11 @@ import "./Editor.scss";
 function Editor() {
     const note = useAppSelector(selectNote)
     const dispatch = useAppDispatch()
-    const [model, setModel] = useState<Model>(new Model())
     function handleChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
         let toUpdate = new INote()
         toUpdate.id = note.currentNote.id
         toUpdate.content = e.target.value
-        model.updateNote(toUpdate)
+        db.updateNote(toUpdate)
             .then(res => {
                 dispatch(setNoteList(note.noteList.map(item => {
                     if (item.id == note.currentNote.id) {
