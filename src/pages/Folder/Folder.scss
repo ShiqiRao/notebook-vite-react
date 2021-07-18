@@ -1,18 +1,18 @@
 .folder {
     background-color: #f7f8fa;
     height: 100%;
+    overflow-y: scroll;
+    position: relative;
     &__topbar {
         height: 72px;
         line-height: 72px;
         background-color: #fff;
-        input {
-            height: 40px;
-            width: 320px;
-            background-color: #f7f8fa;
-            border: none;
-            outline: none;
-            border-radius: 40px;
-        }
+        position: fixed;
+        left: 0;
+        width: 100%;
+    }
+    &__search {
+        padding-left: 120px;
     }
     &__create {
         position: absolute;
@@ -30,6 +30,7 @@
     }
     &__body {
         padding: 30px;
+        margin-top: 72px;
     }
     &__title {
         font-size: 20px;

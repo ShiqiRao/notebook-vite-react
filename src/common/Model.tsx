@@ -11,8 +11,8 @@ class Model extends Dexie {
 
     constructor() {
         super("db_note");
-        this.version(2).stores({
-            t_note: '++id, content, create_at, update_at',
+        this.version(3).stores({
+            t_note: '++id, content, create_at, update_at, folder_id',
             t_folder: '++id, name, create_at, update_at'
             //...other tables goes here...
         });
@@ -44,7 +44,7 @@ class Model extends Dexie {
     }
 
     getFolder() {
-        return this.folders.toArray()
+        return this.folders.reverse().toArray()
     }
 
     addFolder(name: string) {
