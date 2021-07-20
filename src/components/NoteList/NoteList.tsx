@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import clockIcon from "../../assets/images/clock.svg";
 import { INote } from '../../common/INote';
 import { db } from '../../common/Model';
+import { selectFolder } from '../../reducer/folder';
 import { selectNote, setCurrentNote, setHasNext, setNoteList, setPage } from '../../reducer/note';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import Search from '../Search/Search';
@@ -10,6 +11,7 @@ import "./NoteList.scss";
 
 function NoteList() {
     const note = useAppSelector(selectNote)
+    const folder = useAppSelector(selectFolder)
     const dispatch = useAppDispatch()
     useEffect(() => {
         fetchData(true)
@@ -39,10 +41,12 @@ function NoteList() {
     }
 
     function handleAddNote() {
-        db.addNote()
-            .then(res => {
-                fetchData(true)
-            })
+        if (folder.currentFolder.id) {
+            db.addNote(folder.currentFolder.id)
+                .then(res => {
+                    fetchData(true)
+                })
+        }
     }
 
     function handleSelectNote(item: INote) {
@@ -59,8 +63,6 @@ function NoteList() {
 
     return <div className="note-list" onScroll={(e) => handleScroll(e)}>
         <div className="note-list__topbar">
-            {/* <input></input>
-            <img className="note-list__search" src={searchIcon}></img> */}
             <Search></Search>
             <div onClick={handleAddNote} className="note-list__add"></div>
         </div>

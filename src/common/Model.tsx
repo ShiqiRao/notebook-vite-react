@@ -30,9 +30,10 @@ class Model extends Dexie {
         return this.notes.reverse().offset((page - 1) * limit).limit(limit).toArray()
     }
 
-    addNote() {
+    addNote(folder_id: number) {
         return this.notes.add({
             content: '',
+            folder_id,
             create_at: Date.now(),
             update_at: Date.now()
         })

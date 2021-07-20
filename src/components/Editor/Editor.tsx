@@ -41,7 +41,7 @@ function Editor() {
         <div className="editor__panel">
             <div onClick={(e) => { setShowDropDown(!showDropDown) }} className="editor__folder">
                 <span className="editor__foldericon"></span>
-                {folder.currentFolder.name ? folder.currentFolder.name : "我创建的文件夹"}
+                {folder.currentFolder.name ? folder.currentFolder.name : "默认文件夹"}
                 <span className="editor__arrowicon"></span>
                 {showDropDown && <div className="drop-down">
                     <div className="drop-down__list">

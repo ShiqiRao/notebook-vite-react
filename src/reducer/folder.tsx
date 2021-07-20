@@ -28,6 +28,11 @@ export const fetchFolder = createAsyncThunk(
     'folder/fetchFolderStatus',
     async () => {
         const folders = await db.getFolder()
+        if (folders.length == 0) {
+            db.addFolder("默认文件夹")
+            const defaultFolders = await db.getFolder()
+            return defaultFolders as IFolder[]
+        }
         return folders as IFolder[]
     }
 )
@@ -52,7 +57,10 @@ export const FolderSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(fetchFolder.fulfilled, (state, { payload }) => {
-          state.folderList = payload
+            state.folderList = payload
+            if (!state.currentFolder.id) {
+                state.currentFolder = payload[0]
+            }
         })
     }
 })
