@@ -5,7 +5,7 @@ import type { RootState } from '../store/store'
 
 // Define a type for the slice state
 interface FolderState {
-    currentFolder: IFolder,
+    currentFolder?: IFolder,
     folderList: IFolder[],
     page: number,
     hasNext: boolean
@@ -13,12 +13,6 @@ interface FolderState {
 
 // Define the initial state using that type
 const initialState: FolderState = {
-    currentFolder: {
-        id: 0,
-        name: '',
-        create_at: new Date().getTime(),
-        update_at: new Date().getTime()
-    },
     folderList: [],
     page: 1,
     hasNext: true
@@ -58,9 +52,7 @@ export const FolderSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(fetchFolder.fulfilled, (state, { payload }) => {
             state.folderList = payload
-            if (!state.currentFolder.id) {
-                state.currentFolder = payload[0]
-            }
+            state.currentFolder = payload[0]
         })
     }
 })

@@ -4,7 +4,7 @@ import clockIcon from "../../assets/images/clock.svg";
 import { INote } from '../../common/INote';
 import { db } from '../../common/Model';
 import { selectFolder } from '../../reducer/folder';
-import { selectNote, setCurrentNote, setHasNext, setNoteList, setPage } from '../../reducer/note';
+import { fetchNote, selectNote, setCurrentNote } from '../../reducer/note';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import Search from '../Search/Search';
 import "./NoteList.scss";
@@ -18,30 +18,11 @@ function NoteList() {
     }, [])
 
     function fetchData(firstPage: boolean) {
-        const currentPage = firstPage ? 1 : note.page;
-        db.getNote({
-            limit: 12,
-            page: currentPage
-        })
-            .then(res => {
-                const list = res
-                if (firstPage) {
-                    dispatch(setNoteList(list))
-                    list.length > 0 && dispatch(setCurrentNote(list[0]))
-                } else {
-                    dispatch(setNoteList(note.noteList.concat(res)))
-                }
-                if (list.length == 12) {
-                    dispatch(setHasNext(true))
-                    dispatch(setPage(currentPage + 1))
-                } else {
-                    dispatch(setHasNext(false))
-                }
-            })
+        folder.currentFolder && dispatch(fetchNote({ firstPage, page: note.page, folder_id: folder.currentFolder.id }))
     }
 
     function handleAddNote() {
-        if (folder.currentFolder.id) {
+        if (folder.currentFolder && folder.currentFolder.id) {
             db.addNote(folder.currentFolder.id)
                 .then(res => {
                     fetchData(true)

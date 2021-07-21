@@ -2,6 +2,12 @@ import Dexie from 'dexie';
 import { IFolder } from "./IFolder";
 import { INote } from "./INote";
 
+interface GetNoteArg {
+    page: number,
+    limit: number,
+    folder_id?: number
+}
+
 class Model extends Dexie {
     // Declare implicit table properties.
     // (just to inform Typescript. Instanciated by Dexie in stores() method)
@@ -22,12 +28,21 @@ class Model extends Dexie {
         this.folders = this.table("t_folder");
     }
 
-    getNote(params = {
-        page: 1,
-        limit: 10
-    }) {
-        const { limit, page } = params
-        return this.notes.reverse().offset((page - 1) * limit).limit(limit).toArray()
+    getNote(params: GetNoteArg) {
+        const { limit, page, folder_id } = params
+        if (folder_id) {
+            return this.notes
+                .where({ folder_id })
+                .reverse()
+                .offset((page - 1) * limit)
+                .limit(limit)
+                .toArray()
+        }
+        return this.notes
+            .reverse()
+            .offset((page - 1) * limit)
+            .limit(limit)
+            .toArray()
     }
 
     addNote(folder_id: number) {

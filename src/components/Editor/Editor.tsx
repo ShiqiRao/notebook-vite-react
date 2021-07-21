@@ -3,7 +3,7 @@ import { IFolder } from "../../common/IFolder";
 import { INote } from "../../common/INote";
 import { db } from "../../common/Model";
 import { selectFolder, setCurrentFolder } from "../../reducer/folder";
-import { selectNote, setNoteList } from '../../reducer/note';
+import { fetchNote, selectNote, setNoteList } from '../../reducer/note';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import "./Editor.scss";
 
@@ -34,6 +34,7 @@ function Editor() {
     }
 
     function handleFolderSelect(item: IFolder) {
+        dispatch(fetchNote({ firstPage: true, page: note.page, folder_id: item.id }))
         dispatch(setCurrentFolder(item))
     }
 
@@ -41,19 +42,19 @@ function Editor() {
         <div className="editor__panel">
             <div onClick={(e) => { setShowDropDown(!showDropDown) }} className="editor__folder">
                 <span className="editor__foldericon"></span>
-                {folder.currentFolder.name ? folder.currentFolder.name : "默认文件夹"}
+                {folder.currentFolder && folder.currentFolder.name ? folder.currentFolder.name : "默认文件夹"}
                 <span className="editor__arrowicon"></span>
                 {showDropDown && <div className="drop-down">
                     <div className="drop-down__list">
                         {folder.folderList.map(item => <div key={item.id}
-                            className={"drop-down__item" + (folder.currentFolder.id == item.id ? " active" : "")}
+                            className={"drop-down__item" + (folder.currentFolder && folder.currentFolder.id == item.id ? " active" : "")}
                             onClick={() => handleFolderSelect(item)}
                         >{item.name}</div>)}
                     </div>
                 </div>}
             </div>
         </div>
-        <textarea key={note.currentNote.id} onChange={handleChange} placeholder="请输入" defaultValue={note.currentNote.content} className="editor__textarea"></textarea>
+        {note.currentNote && <textarea key={note.currentNote.id} onChange={handleChange} placeholder="请输入" defaultValue={note.currentNote.content} className="editor__textarea"></textarea>}
     </div >
 }
 
