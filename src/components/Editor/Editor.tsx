@@ -34,8 +34,12 @@ function Editor() {
 
     }
 
-    function handleFolderSelect(item: IFolder) {
-        dispatch(fetchNote({ firstPage: true, page: note.page, folder_id: item.id }))
+    function handleFolderSelect(item?: IFolder) {
+        if (item) {
+            dispatch(fetchNote({ firstPage: true, page: note.page, folder_id: item.id }))
+        } else {
+            dispatch(fetchNote({ firstPage: true, page: note.page }))
+        }
         dispatch(setCurrentFolder(item))
     }
 
@@ -57,10 +61,13 @@ function Editor() {
             <div onClick={(e) => { setShowDropDown(!showDropDown) }} className="editor__folder">
                 {/* fixme:更简洁的实现方式 */}
                 {folder.currentFolder && folder.currentFolder.name && <span className="editor__foldericon"></span>}
-                {folder.currentFolder && folder.currentFolder.name ? folder.currentFolder.name : MyLoader()}
-                {folder.currentFolder && folder.currentFolder.name && <span className="editor__arrowicon"></span>}
+                {folder.currentFolder && folder.currentFolder.name ? folder.currentFolder.name : "全部"}
+                <span className="editor__arrowicon"></span>
                 {showDropDown && <div className="drop-down">
                     <div className="drop-down__list">
+                        <div key={-1} className={"drop-down__item" + (folder.currentFolder ? "" : " active")}
+                            onClick={() => handleFolderSelect()}
+                        >全部</div>
                         {folder.folderList.map(item => <div key={item.id}
                             className={"drop-down__item" + (folder.currentFolder && folder.currentFolder.id == item.id ? " active" : "")}
                             onClick={() => handleFolderSelect(item)}

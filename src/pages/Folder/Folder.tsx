@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux"
 import iconClose from "../../assets/images/close.svg"
 import { IFolder } from "../../common/IFolder"
 import { db } from "../../common/Model"
-import Search from "../../components/Search/Search"
 import { fetchFolder, selectFolder } from "../../reducer/folder"
 import "./Folder.scss"
 
@@ -34,15 +33,8 @@ function Folder() {
         setInputValue(e.target.value)
     }
 
-
-
-
     return <div className="folder">
         <div className="folder__topbar">
-            <div className="folder__search">
-                <Search></Search>
-            </div>
-
             <div className="folder__create" onClick={() => { setShowModal(true) }}>
                 新建文件夹
             </div>

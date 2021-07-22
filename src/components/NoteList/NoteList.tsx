@@ -18,7 +18,9 @@ function NoteList() {
     }, [])
 
     function fetchData(firstPage: boolean) {
-        folder.currentFolder && dispatch(fetchNote({ firstPage, page: note.page, folder_id: folder.currentFolder.id }))
+        folder.currentFolder
+            ? dispatch(fetchNote({ firstPage, page: note.page, folder_id: folder.currentFolder.id }))
+            : dispatch(fetchNote({ firstPage, page: note.page }))
     }
 
     function handleAddNote() {
@@ -47,16 +49,19 @@ function NoteList() {
             <Search></Search>
             <div onClick={handleAddNote} className="note-list__add"></div>
         </div>
-        {note.noteList.map(item => <div key={item.id} onClick={() => { handleSelectNote(item) }} className={"note-list__note" + (item.id == note.currentNote.id ? ' active' : '')}>
-            <div className="note-list__title">{item.content == '' ? format(new Date(item.create_at), "yyyy年MM月dd日") : item.content.substring(0, 10)}</div>
-            <div className="note-list__detail">{item.content}</div>
-            <div className="note-list__time">
-                <img src={clockIcon} />
-                {format(new Date(item.update_at), "yyyy/MM/dd hh:mm")}
-            </div>
-        </div>)
-        }
-
+        <div className="note-list__container">
+            {note.noteList.map(item =>
+                <div key={item.id} onClick={() => { handleSelectNote(item) }}
+                    className={"note-list__note" + (item.id == note.currentNote.id ? ' active' : '')}>
+                    <div className="note-list__title">{item.content == '' ? format(new Date(item.create_at), "yyyy年MM月dd日") : item.content.substring(0, 10)}</div>
+                    <div className="note-list__detail">{item.content}</div>
+                    <div className="note-list__time">
+                        <img src={clockIcon} />
+                        {format(new Date(item.update_at), "yyyy/MM/dd hh:mm")}
+                    </div>
+                </div>)
+            }
+        </div>
     </div >
 }
 

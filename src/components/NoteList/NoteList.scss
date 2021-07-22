@@ -6,8 +6,10 @@
     overflow-y: scroll;
     overflow-x: hidden;
     &__topbar {
+        z-index: 101;
         height: 72px;
-        position: relative;
+        position: absolute;
+        width: 400px;
         background-color: white;
         border-bottom: 1px solid #eeeeee;
         input {
@@ -28,6 +30,9 @@
         position: absolute;
         left: 30px;
         top: 28px;
+    }
+    &__container{
+        margin-top: 72px;
     }
     &__note {
         background-color: white;
