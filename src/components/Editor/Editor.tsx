@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import ContentLoader from "react-content-loader";
 import { IFolder } from "../../common/IFolder";
 import { INote } from "../../common/INote";
 import { db } from "../../common/Model";
@@ -38,12 +39,26 @@ function Editor() {
         dispatch(setCurrentFolder(item))
     }
 
+    const MyLoader = () => (
+        <ContentLoader
+            speed={2}
+            width={88}
+            height={16}
+            viewBox="0 0 88 16"
+            backgroundColor="#f3f3f3"
+            foregroundColor="#ecebeb"
+        >
+            <rect x="0" y="0" rx="3" ry="3" width="88" height="16" />
+        </ContentLoader>
+    )
+
     return <div className="editor">
         <div className="editor__panel">
             <div onClick={(e) => { setShowDropDown(!showDropDown) }} className="editor__folder">
-                <span className="editor__foldericon"></span>
-                {folder.currentFolder && folder.currentFolder.name ? folder.currentFolder.name : "默认文件夹"}
-                <span className="editor__arrowicon"></span>
+                {/* fixme:更简洁的实现方式 */}
+                {folder.currentFolder && folder.currentFolder.name && <span className="editor__foldericon"></span>}
+                {folder.currentFolder && folder.currentFolder.name ? folder.currentFolder.name : MyLoader()}
+                {folder.currentFolder && folder.currentFolder.name && <span className="editor__arrowicon"></span>}
                 {showDropDown && <div className="drop-down">
                     <div className="drop-down__list">
                         {folder.folderList.map(item => <div key={item.id}
