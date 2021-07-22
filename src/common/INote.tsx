@@ -4,4 +4,6 @@ export class INote {
     create_at: number = Date.now();
     update_at: number = Date.now();
     folder_id?: number;
+    deleted: boolean = false;
+    starred: boolean = false;
 }

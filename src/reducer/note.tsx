@@ -14,7 +14,9 @@ interface NoteState {
 interface FetchNoteArg {
     firstPage: boolean,
     page: number,
-    folder_id?: number
+    folder_id?: number,
+    deleted: boolean,
+    starred?: boolean
 }
 
 interface FetchNotePayload {
@@ -29,7 +31,9 @@ const initialState: NoteState = {
         id: 0,
         content: '',
         create_at: new Date().getTime(),
-        update_at: new Date().getTime()
+        update_at: new Date().getTime(),
+        deleted: false,
+        starred: false
     },
     noteList: [],
     page: 1,
@@ -44,7 +48,9 @@ export const fetchNote = createAsyncThunk(
         const noteList = await db.getNote({
             limit: 12,
             page: currentPage,
-            folder_id: arg.folder_id
+            folder_id: arg.folder_id,
+            deleted: arg.deleted,
+            starred: arg.starred
         })
         return { noteList, firstPage: arg.firstPage, currentPage } as FetchNotePayload
     }

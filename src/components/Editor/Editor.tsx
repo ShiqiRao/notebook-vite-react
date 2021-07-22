@@ -36,9 +36,9 @@ function Editor() {
 
     function handleFolderSelect(item?: IFolder) {
         if (item) {
-            dispatch(fetchNote({ firstPage: true, page: note.page, folder_id: item.id }))
+            dispatch(fetchNote({ firstPage: true, page: note.page, folder_id: item.id, deleted: false }))
         } else {
-            dispatch(fetchNote({ firstPage: true, page: note.page }))
+            dispatch(fetchNote({ firstPage: true, page: note.page, deleted: false }))
         }
         dispatch(setCurrentFolder(item))
     }

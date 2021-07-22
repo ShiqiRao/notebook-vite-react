@@ -6,7 +6,12 @@ import { db } from "../../common/Model"
 import { fetchFolder, selectFolder } from "../../reducer/folder"
 import "./Folder.scss"
 
-function folderItem(folder: IFolder) {
+interface FolderItemProps {
+    folder: IFolder
+}
+
+export const FolderItem: React.FC<FolderItemProps> = (props: FolderItemProps) => {
+    const { folder } = props
     const [count, setCount] = useState(0);
     useEffect(() => {
         folder.id && db.countNoteByFolderId(folder.id)
@@ -43,7 +48,7 @@ function Folder() {
             <div className="folder__title">全部分类 ({folderSelector.folderList.length})</div>
             <div className="folder__list">
                 {folderSelector.folderList.map(item =>
-                    folderItem(item)
+                    <FolderItem folder={item}></FolderItem>
                 )}
 
             </div>

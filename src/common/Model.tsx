@@ -5,7 +5,9 @@ import { INote } from "./INote";
 interface GetNoteArg {
     page: number,
     limit: number,
-    folder_id?: number
+    folder_id?: number,
+    deleted: boolean,
+    starred?: boolean
 }
 
 class Model extends Dexie {
@@ -17,8 +19,8 @@ class Model extends Dexie {
 
     constructor() {
         super("db_note");
-        this.version(3).stores({
-            t_note: '++id, content, create_at, update_at, folder_id',
+        this.version(4).stores({
+            t_note: '++id, content, create_at, update_at, folder_id , is_deleted, is_starred',
             t_folder: '++id, name, create_at, update_at'
             //...other tables goes here...
         });
@@ -29,20 +31,18 @@ class Model extends Dexie {
     }
 
     getNote(params: GetNoteArg) {
-        const { limit, page, folder_id } = params
-        if (folder_id) {
-            return this.notes
-                .where({ folder_id })
-                .reverse()
-                .offset((page - 1) * limit)
-                .limit(limit)
-                .toArray()
-        }
+        const { limit, page, folder_id, deleted, starred } = params
+        let condition: { [key: string]: any } = {}
+        folder_id && (condition.folder_id = folder_id);
+        deleted && (condition.is_deleted = deleted);
+        starred && (condition.is_starred = starred);
         return this.notes
+            .where(condition)
             .reverse()
             .offset((page - 1) * limit)
             .limit(limit)
             .toArray()
+
     }
 
     addNote(folder_id: number) {
@@ -50,7 +50,9 @@ class Model extends Dexie {
             content: '',
             folder_id,
             create_at: Date.now(),
-            update_at: Date.now()
+            update_at: Date.now(),
+            deleted: false,
+            starred: false
         })
     }
 
