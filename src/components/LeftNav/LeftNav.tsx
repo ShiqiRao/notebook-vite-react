@@ -14,7 +14,8 @@ function LeftNav() {
                 笔记
             </div>
         </NavLink>
-        <NavLink className='left-nav__item' to="/photo">
+        {/* TODO 待实现*/}
+        {/* <NavLink className='left-nav__item' to="/photo">
             <div className='left-nav__icon left-nav__icon__pic'>
             </div>
             <div>
@@ -27,7 +28,7 @@ function LeftNav() {
             <div>
                 音频
             </div>
-        </NavLink>
+        </NavLink> */}
         <NavLink className='left-nav__item' to="/folder">
             <div className='left-nav__icon left-nav__icon__folder'>
             </div>
