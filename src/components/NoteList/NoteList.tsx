@@ -47,7 +47,7 @@ function NoteList() {
     return <div className="note-list" onScroll={(e) => handleScroll(e)}>
         <div className="note-list__topbar">
             <Search></Search>
-            <div onClick={handleAddNote} className="note-list__add"></div>
+            {folder.currentFolder && <div onClick={handleAddNote} className="note-list__add"></div>}
         </div>
         <div className="note-list__container">
             {note.noteList.map(item =>
