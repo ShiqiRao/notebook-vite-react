@@ -59,6 +59,10 @@ class Model extends Dexie {
         return this.notes.update(payload.id || 0, payload)
     }
 
+    countNoteByFolderId(folder_id: number) {
+        return this.notes.where({ folder_id }).count()
+    }
+
     getFolder() {
         return this.folders.reverse().toArray()
     }

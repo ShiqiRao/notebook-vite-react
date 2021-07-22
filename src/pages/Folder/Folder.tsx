@@ -1,19 +1,28 @@
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import iconClose from "../../assets/images/close.svg"
+import { IFolder } from "../../common/IFolder"
 import { db } from "../../common/Model"
 import Search from "../../components/Search/Search"
 import { fetchFolder, selectFolder } from "../../reducer/folder"
 import "./Folder.scss"
+
+function folderItem(folder: IFolder) {
+    const [count, setCount] = useState(0);
+    useEffect(() => {
+        folder.id && db.countNoteByFolderId(folder.id)
+            .then(res => {
+                setCount(res)
+            })
+    }, [])
+    return <div key={folder.id} className="folder__item">{folder.name} <span>{count}</span></div>
+}
 
 function Folder() {
     const [showModal, setShowModal] = useState(false)
     const [inputValue, setInputValue] = useState('')
     const folderSelector = useSelector(selectFolder)
     const dispatch = useDispatch()
-
-    useEffect(() => {
-    }, [])
 
     function createFolder() {
         db.addFolder(inputValue)
@@ -24,6 +33,9 @@ function Folder() {
     function changeInputValue(e: React.ChangeEvent<HTMLInputElement>) {
         setInputValue(e.target.value)
     }
+
+
+
 
     return <div className="folder">
         <div className="folder__topbar">
@@ -39,8 +51,7 @@ function Folder() {
             <div className="folder__title">全部分类 ({folderSelector.folderList.length})</div>
             <div className="folder__list">
                 {folderSelector.folderList.map(item =>
-                    <div key={item.id}
-                        className="folder__item">{item.name} <span>(1)</span></div>
+                    folderItem(item)
                 )}
 
             </div>
